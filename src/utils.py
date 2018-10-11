@@ -12,6 +12,7 @@ def normalize_string(s):
 
 # Split file into lines of examples
 # Split lines into pairs of lang1 <-> lang2
+# Add sentences to languages vocab
 def read_languages(lang1, lang2, filename):
 	with open(filename, 'r') as file:
 		lines = file.read().strip().split('\n')
@@ -25,4 +26,15 @@ def read_languages(lang1, lang2, filename):
 		input_lang.add_sentence(pair[0])
 		output_lang.add_sentence(pair[1])
 
-	return input_lang, output_lang, pairs
+	return input_lang, output_lang
+
+def tensor_from_sentence(lang, sentence):
+	indexes = [lang.word_index[word] for word in sentence.split(' ')]
+	indexes.append(EOS_token)
+
+	return torch.tensor(indexes, dtype=torch.long, device=device).view(-1, 1)
+
+def tensors_from_pair(input_lang, output_lang, pair):
+	input_tensor = tensor_from_sentence(input_lang, pair[0])
+	target_tensor = tensor_from_sentence(output_lang, pair[1])
+	return (input_tensor, target_tensor)
