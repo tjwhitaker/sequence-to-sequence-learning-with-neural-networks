@@ -26,7 +26,7 @@ def read_languages(lang1, lang2, filename):
 		input_lang.add_sentence(pair[0])
 		output_lang.add_sentence(pair[1])
 
-	return input_lang, output_lang
+	return input_lang, output_lang, pairs
 
 def tensor_from_sentence(lang, sentence):
 	indexes = [lang.word_index[word] for word in sentence.split(' ')]
