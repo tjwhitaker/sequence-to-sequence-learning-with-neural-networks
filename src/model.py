@@ -15,7 +15,7 @@ class Encoder(nn.Module):
 		return output, hidden
 
 	def init_hidden(self):
-		return torch.zeros(1, 1, self.hidden_size, device=device)
+		return torch.zeros(1, 1, self.hidden_size, device=DEVICE)
 
 class Decoder(nn.Module):
 	def __init__(self, hidden_size, output_size):
@@ -34,15 +34,15 @@ class Decoder(nn.Module):
 		return output, hidden
 
 	def init_hidden(self):
-		return torch.zeros(1, 1, self.hidden_size, device=device)
+		return torch.zeros(1, 1, self.hidden_size, device=DEVICE)
 
 class AttentionDecoder(nn.Module):
-	def __init__(self, hidden_size, output_size, dropout_p, max_length):
+	def __init__(self, hidden_size, output_size):
 		super(AttentionDecoder, self).__init__()
 		self.hidden_size = hidden_size
 		self.output_size = output_size
-		self.dropout_p = dropout_p
-		self.max_length = max_length
+		self.dropout_p = DROPOUT_P
+		self.max_length = MAX_LENGTH
 
 		self.embedding = nn.Embedding(self.output_size, self.hidden_size)
 		self.attention_layer = nn.Linear(self.hidden_size * 2, self.max_length)
@@ -68,7 +68,7 @@ class AttentionDecoder(nn.Module):
 		return output, hidden, attention_weights
 
 	def init_hidden(self):
-		return torch.zeros(1, 1, self.hidden_size, device=device)
+		return torch.zeros(1, 1, self.hidden_size, device=DEVICE)
 
 
 def train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, decoder_optimizer, criterion, max_length):
@@ -80,7 +80,7 @@ def train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, deco
 	input_length = input_tensor.size(0)
 	target_length = target_tensor.size(0)
 
-	encoder_outputs = torch.zeros(max_length, encoder.hidden_size, device=device)
+	encoder_outputs = torch.zeros(max_length, encoder.hidden_size, device=DEVICE)
 
 	loss = 0
 
@@ -88,7 +88,7 @@ def train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, deco
 		encoder_output, encoder_hidden = encoder(input_tensor[i], encoder_hidden)
 		encoder_outputs[i] = encoder_output[0, 0]
 
-	decoder_input = torch.tensor([[SOS_token]], device=device)
+	decoder_input = torch.tensor([[SOS_TOKEN]], device=DEVICE)
 
 	decoder_hidden = encoder_hidden
 
@@ -100,7 +100,7 @@ def train(input_tensor, target_tensor, encoder, decoder, encoder_optimizer, deco
 
 		loss += criterion(decoder_output, target_tensor[i])
 
-		if decoder_input.item() == EOS_token:
+		if decoder_input.item() == EOS_TOKEN:
 			break
 
 	loss.backward()

@@ -32,7 +32,7 @@ def tensor_from_sentence(lang, sentence):
 	indexes = [lang.word_index[word] for word in sentence.split(' ')]
 	indexes.append(EOS_token)
 
-	return torch.tensor(indexes, dtype=torch.long, device=device).view(-1, 1)
+	return torch.tensor(indexes, dtype=torch.long, device=DEVICE).view(-1, 1)
 
 def tensors_from_pair(input_lang, output_lang, pair):
 	input_tensor = tensor_from_sentence(input_lang, pair[0])

@@ -10,8 +10,10 @@ import torch.optim as optim
 # Config
 settings.init()
 
-encoder = model.Encoder()
-decoder = model.AttentionDecoder()
+input_lang, output_lang = utils.read_languages('English', 'Spanish', '../data/english-spanish.txt')
+
+encoder = model.Encoder(input_lang.num_words, HIDDEN_SIZE).to(DEVICE)
+decoder = model.AttentionDecoder(HIDDEN_SIZE, output_lang.num_words).to(DEVICE)
 
 encoder_optimizer = optim.SGD(encoder.parameters(), lr=LEARNING_RATE)
 decoder_optimizer = optim.SGD(decoder.parameters(), lr=LEARNING_RATE)

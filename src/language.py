@@ -1,6 +1,3 @@
-SOS_token = 0
-EOS_token = 1
-
 class Vocab:
 	def __init__(self, name):
 		self.name = name
@@ -15,9 +12,9 @@ class Vocab:
 
 	def addWord(self, word):
 		if word not in self.word2index:
-			self.word2index[word] = self.num_words
-			self.word2count[word] = 1
-			self.index2word[self.num_words] = word
+			self.word_index[word] = self.num_words
+			self.word_count[word] = 1
+			self.index_word[self.num_words] = word
 			self.num_words += 1
 		else:
-			self.word2count[word] += 1
+			self.word_count[word] += 1
