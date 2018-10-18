@@ -5,7 +5,7 @@ import random
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from settings import DEVICE, LEARNING_RATE, HIDDEN_SIZE, ITERATIONS, MAX_LENGTH, PRINT_EVERY
+from settings import DEVICE, LEARNING_RATE, HIDDEN_SIZE, EPOCHS, MAX_LENGTH, PRINT_EVERY
 
 
 input_lang, output_lang, pairs = utils.read_languages('English', 'Spanish', '../data/simple-english-spanish.txt')
@@ -19,8 +19,8 @@ decoder_optimizer = optim.SGD(decoder.parameters(), lr=LEARNING_RATE)
 training_pairs = [utils.tensors_from_pair(input_lang, output_lang, random.choice(pairs)) for i in range(ITERATIONS)]
 criterion = nn.NLLLoss()
 
-for i in range(1, ITERATIONS + 1):
-    training_pair = training_pairs[i - 1]
+for i in range(EPOCHS):
+    training_pair = training_pairs[i]
     input_tensor = training_pair[0]
     target_tensor = training_pair[1]
 

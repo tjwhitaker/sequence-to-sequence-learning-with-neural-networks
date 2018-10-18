@@ -1,7 +1,7 @@
 import torch
 
 DEVICE = torch.device('cuda')
-ITERATIONS = 75000
+EPOCHS = 75000
 PRINT_EVERY = 5000
 LEARNING_RATE = 0.01
 SOS_TOKEN = 0
