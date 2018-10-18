@@ -6,12 +6,12 @@ class Vocab:
 		self.index_word = {0: "SOS", 1: "EOS"}
 		self.num_words = 2
 
-	def addSentence(self, sentence):
+	def add_sentence(self, sentence):
 		for word in sentence.split(' '):
-			self.addWord(word)
+			self.add_word(word)
 
-	def addWord(self, word):
-		if word not in self.word2index:
+	def add_word(self, word):
+		if word not in self.word_index:
 			self.word_index[word] = self.num_words
 			self.word_count[word] = 1
 			self.index_word[self.num_words] = word
